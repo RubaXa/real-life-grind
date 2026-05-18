@@ -1,6 +1,6 @@
-// @file: .github/workflows/ci.yml
-// @consumers: GitHub Actions runner
-// @tasks: TSK-04
+# @file: .github/workflows/ci.yml
+# @consumers: GitHub Actions runner
+# @tasks: TSK-04
 
 name: CI/CD
 
