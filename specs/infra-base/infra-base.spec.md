@@ -141,9 +141,10 @@ npm run deploy:storybook
 2. `npm run storybook:build` → `storybook-static/`
 3. `rm -rf dist/storybook && cp -r storybook-static dist/storybook` — Storybook внутри SPA-папки
 4. `touch dist/.nojekyll` — отключает Jekyll-обработку на GitHub Pages
-5. `gh-pages -d dist --no-history` — публикация `dist/` в корень ветки `gh-pages` (полная замена, без накопления stale assets)
+5. Создаёт временный git-репозиторий, копирует `dist/` → коммит → `git push origin gh-pages --force`
+6. Временная директория удаляется
 
-**Важно:** `vite.config.ts` должен содержать `base: '/real-life-grind/'` для корректной загрузки ассетов на project site. PWA manifest: `start_url: '/real-life-grind/'`, `scope: '/real-life-grind/'`.
+**Важно:** `vite.config.ts` должен содержать `base: '/real-life-grind/'` для корректной загрузки ассетов на project site. PWA manifest: `start_url: '/real-life-grind/'`, `scope: '/real-life-grind/'`. Деплой использует чистый git (сила пуша), без npm-пакета `gh-pages` — пакет некорректно фильтрует файлы при `--no-history`.
 
 GitHub Pages настроен на ветку `gh-pages` (корень). SPA доступен по `https://<user>.github.io/real-life-grind/`, Storybook — по `https://<user>.github.io/real-life-grind/storybook/`.
 
@@ -361,7 +362,7 @@ real-life-grind/
 - **Supersedes:** D-012
 - **Pre-rework state:** git ref `21ad60efe1fba7e72a7045428da29bb4e19d9f9a` (ci.yml с `peaceiris/actions-gh-pages@v4`, деплой SPA через GitHub Actions при push в main)
 - **Was:** Автоматический деплой SPA на GitHub Pages через GitHub Actions (`peaceiris/actions-gh-pages@v4`) при push в main. Storybook деплоился отдельно.
-- **Now:** Ручной деплой SPA + Storybook через `gh-pages` npm-пакет одной командой `npm run deploy`. Storybook публикуется в поддиректорию `/storybook/` на том же GitHub Pages. CI workflow (`.github/workflows/ci.yml`) удалён — GitHub Actions недоступен.
+- **Now:** Ручной деплой SPA + Storybook через чистый git (`git push origin gh-pages --force` из временной директории) одной командой `npm run deploy`. Storybook публикуется в поддиректорию `/storybook/` на том же GitHub Pages. CI workflow (`.github/workflows/ci.yml`) удалён — GitHub Actions недоступен.
 - **Why:** GitHub Actions account заблокирован из-за billing issue. Ручной деплой через `gh-pages` — минимальное изменение без смены хостинг-провайдера. Storybook объединён с SPA в один деплой (один source of truth для статики).
 - **Risk accepted:** Деплой только вручную — оператор должен помнить запушить после изменений. Storybook и SPA деплоятся вместе — нельзя обновить только один.
 - **Rejected alternatives:** Vercel/Netlify (другой провайдер — overhead миграции), Firebase Hosting (платный), раздельные деплой-команды для SPA и Storybook (усложнение без выигрыша на v1).
@@ -390,7 +391,6 @@ real-life-grind/
 | `vite-plugin-pwa` | package | this-scope-task | `npm install -D vite-plugin-pwa` |
 | `dexie` | package | this-scope-task | `npm install dexie` |
 | `svelte-check` | package | this-scope-task | `npm install -D svelte-check` |
-| `gh-pages` | package | this-scope-task | `npm install -D gh-pages` |
 | `.firebaserc` | file | this-scope-task | `npx firebase use <project-id>` (генерирует алиас проекта) |
 | `ai/directives/infra/nodejs-npm-setup.xml` | file | external-prereq-scope | Существует в `ai/directives/` |
 | `ai/directives/infra/git-setup.xml` | file | external-prereq-scope | Существует в `ai/directives/` |
@@ -415,7 +415,7 @@ real-life-grind/
   10. Переменные окружения (`.env.example` с VITE_FIREBASE_*-ключами, `.env` в `.gitignore`)
   11. `.gitignore` (node_modules, dist, storybook-static, .firebase, coverage, .env, env-файлы)
   12. npm-скрипты: `dev`, `build`, `preview`, `check`, `ci-check`, `typecheck`, `svelte-check`, `test`, `test:e2e`, `lint`, `format`, `deploy`, `deploy:app`, `deploy:storybook`
-  13. Деплой-инструмент `gh-pages` + скрипты ручного деплоя (D-018, замена CI)
+  13. Деплой: чистый git (сила пуш `dist/` в `gh-pages`), замена CI и `gh-pages` npm-пакета (D-018, pivot D-012)
 
 - **Effective rules ready for cascade:** см. раздел 5
 

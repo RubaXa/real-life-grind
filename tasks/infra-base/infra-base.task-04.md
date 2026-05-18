@@ -199,7 +199,7 @@ Contract: [infra-base spec 2 Tool Stack, 6 Verification Commands, 3 Dev Workflow
 - **Inputs:** Round 1 P2 handoff (ci.yml, package.json)
 - **Exit:**
   - `.github/workflows/ci.yml` удалён
-  - `gh-pages` установлен как devDependency (`npm install -D gh-pages`)
+  - деплой использует чистый git (сила пуш в `gh-pages` ветку)
   - `package.json` скрипты:
     - `deploy`: `npm run build && npm run storybook:build && rm -rf dist/storybook && cp -r storybook-static dist/storybook && touch dist/.nojekyll && gh-pages -d dist --no-history`
     - `deploy:app`: `npm run build && touch dist/.nojekyll && gh-pages -d dist --no-history`

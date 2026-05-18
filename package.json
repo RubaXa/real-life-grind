@@ -22,9 +22,9 @@
     "format": "biome format --write",
     "check": "tsc --noEmit && svelte-check --tsconfig ./tsconfig.json && vitest run && playwright test && biome check",
     "ci-check": "tsc --noEmit & svelte-check --tsconfig ./tsconfig.json & vitest run & playwright test & biome check; wait",
-    "deploy": "npm run build && npm run storybook:build && rm -rf dist/storybook && cp -r storybook-static dist/storybook && touch dist/.nojekyll && gh-pages -d dist --no-history",
-    "deploy:app": "npm run build && touch dist/.nojekyll && gh-pages -d dist --no-history",
-    "deploy:storybook": "npm run storybook:build && mkdir -p dist-storybook && cp -r storybook-static dist-storybook/storybook && touch dist-storybook/.nojekyll && gh-pages -d dist-storybook --no-history && rm -rf dist-storybook"
+    "deploy": "npm run build && npm run storybook:build && rm -rf dist/storybook && cp -r storybook-static dist/storybook && touch dist/.nojekyll && TMPDIR=$(mktemp -d) && cp -r dist/* dist/.nojekyll \"$TMPDIR/\" && cd \"$TMPDIR\" && git init && git checkout -b gh-pages && git add -A && git commit -m \"Deploy $(date -u +%Y-%m-%dT%H:%M:%SZ)\" && git remote add origin git@github.com:RubaXa/real-life-grind.git && git push origin gh-pages --force && rm -rf \"$TMPDIR\"",
+    "deploy:app": "npm run build && touch dist/.nojekyll && TMPDIR=$(mktemp -d) && cp -r dist/* dist/.nojekyll \"$TMPDIR/\" && cd \"$TMPDIR\" && git init && git checkout -b gh-pages && git add -A && git commit -m \"Deploy app $(date -u +%Y-%m-%dT%H:%M:%SZ)\" && git remote add origin git@github.com:RubaXa/real-life-grind.git && git push origin gh-pages --force && rm -rf \"$TMPDIR\"",
+    "deploy:storybook": "npm run storybook:build && mkdir -p dist-storybook/storybook && cp -r storybook-static/* dist-storybook/storybook/ && touch dist-storybook/.nojekyll && TMPDIR=$(mktemp -d) && cp -r dist-storybook/* dist-storybook/.nojekyll \"$TMPDIR/\" && cd \"$TMPDIR\" && git init && git checkout -b gh-pages && git add -A && git commit -m \"Deploy storybook $(date -u +%Y-%m-%dT%H:%M:%SZ)\" && git remote add origin git@github.com:RubaXa/real-life-grind.git && git push origin gh-pages --force && rm -rf \"$TMPDIR\" dist-storybook"
   },
   "keywords": [],
   "author": "",
@@ -38,7 +38,6 @@
     "@storybook/test-runner": "0.24.4",
     "@sveltejs/vite-plugin-svelte": "7.1.2",
     "firebase-tools": "15.18.0",
-    "gh-pages": "^6.3.0",
     "jsdom": "^29.1.1",
     "lefthook": "2.1.6",
     "serve": "14.2.6",
