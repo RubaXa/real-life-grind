@@ -31,7 +31,8 @@ export default defineConfig({
         ]
       },
       workbox: {
-        globPatterns: ['**/*.{js,css,html,woff2}', '!storybook/**'],
+        globPatterns: ['**/*.{js,css,html,woff2}'],
+        navigateFallbackDenylist: [/^\/storybook\//, /\/storybook\/index\.html$/],
         runtimeCaching: [
           {
             urlPattern: /\.(?:js|css|woff2)$/,
