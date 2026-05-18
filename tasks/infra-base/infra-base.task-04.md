@@ -182,7 +182,7 @@ Contract: [infra-base spec 2 Tool Stack, 6 Verification Commands, 3 Dev Workflow
 - [x] `2026-05-17T16:17:44Z` DONE
 **Handoff →** artifacts: []; decisions: [check=fail-svelte-check-src-main-ts, ci-check=pass-with-individual-failures, build=pass, format=pass-idempotent, firebase-emulators=blocked-java]; open: [R-003: src/main.ts Svelte 5 mount(props) fix by TSK-02, R-001: Java для firebase эмуляторов]
 
-- #### Round close
+#### Round close
 - [x] `2026-05-17T14:40:00Z` sync infra-base+root
 - [x] `2026-05-17T14:40:00Z` DONE
 
@@ -211,6 +211,20 @@ Contract: [infra-base spec 2 Tool Stack, 6 Verification Commands, 3 Dev Workflow
   - `gh-pages --version` → пакет доступен
   - `npm run format` → exit=0 (идемпотентность)
 
+#### P4 Execution Log
+- [x] `2026-05-18T09:30:00Z` recon targets=.github/workflows/ci.yml=exists,package.json=exists,.gitignore=exists divergence=none
+- [x] `2026-05-18T09:30:00Z` rules (none — config phase)
+- [x] `2026-05-18T09:31:00Z` file `.gitignore` (добавлен storybook-static/)
+- [x] `2026-05-18T09:31:00Z` ver `npm install -D gh-pages` → pass exit=0 (gh-pages@6.3.0)
+- [x] `2026-05-18T09:31:00Z` file `package.json` (добавлены deploy, deploy:app, deploy:storybook)
+- [x] `2026-05-18T09:32:00Z` ver `rm -f .github/workflows/ci.yml` → ci.yml удалён
+- [x] `2026-05-18T09:32:00Z` ver `git rm -r --cached storybook-static/` → pass, 42 файла удалены из индекса
+- [x] `2026-05-18T09:32:00Z` ver `npm run build` → pass exit=0
+- [x] `2026-05-18T09:33:00Z` ver `npm run storybook:build` → pass exit=0
+- [x] `2026-05-18T09:33:00Z` ver `gh-pages --version` → pass (6.3.0)
+- [x] `2026-05-18T09:33:00Z` DONE
+**Handoff →** artifacts: [package.json, .gitignore]; decisions: [gh-pages@6.3.0, deploy-scripts=3, ci.yml=removed, storybook-static=untracked]; open: []
+
 #### P5 — test (verification)
 - **Objective:** Верификация: билды + check проходят, deploy-файлы на месте.
 - **Rules:**
@@ -226,6 +240,18 @@ Contract: [infra-base spec 2 Tool Stack, 6 Verification Commands, 3 Dev Workflow
   - `rm -rf dist/storybook && cp -r storybook-static dist/storybook` → `dist/storybook/` содержит storybook-статику
   - `gh-pages --help` → exit=0
 
+#### P5 Execution Log
+- [x] `2026-05-18T09:34:00Z` recon targets=absent (verification-only) divergence=none
+- [x] `2026-05-18T09:34:00Z` rules (none — infra verification)
+- [x] `2026-05-18T09:34:00Z` ver `npm run build` → pass exit=0
+- [x] `2026-05-18T09:34:00Z` ver `npm run storybook:build` → pass exit=0
+- [x] `2026-05-18T09:35:00Z` ver `npm run check` → pass exit=0 (77 tests, 3 e2e, biome 84 warnings pre-existing)
+- [x] `2026-05-18T09:35:00Z` ver `npm run format` → pass exit=0 (идемпотентность)
+- [x] `2026-05-18T09:35:00Z` ver `rm -rf dist/storybook && cp -r storybook-static dist/storybook` → pass, dist/storybook/ создан
+- [x] `2026-05-18T09:35:00Z` ver `gh-pages --help` → pass exit=0
+- [x] `2026-05-18T09:35:00Z` DONE
+**Handoff →** artifacts: []; decisions: [build=pass, storybook:build=pass, check=pass, format=pass-idempotent, storybook-copy=pass]; open: []
+
 #### Round close
-- [ ] `2026-05-18T00:00:00Z` sync infra-base+root
-- [ ] `2026-05-18T00:00:00Z` DONE
+- [x] `2026-05-18T09:36:00Z` sync infra-base+root
+- [x] `2026-05-18T09:36:00Z` DONE

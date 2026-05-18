@@ -85,7 +85,7 @@ graph TD
 ## Tracker Index
 | Scope | Type | Tracker | Tasks | Done |
 |---|---|---|---|---|
-| infra-base | infrastructure | [README](infra-base/README.md) | 4 | 4/4 |
+| infra-base | infrastructure | [README](infra-base/README.md) | 4 | 3/4 (TSK-04 reopened) |
 | infra-ui | infrastructure | [README](infra-ui/README.md) | 4 | 4/4 |
 
 ## Decision Log (scaffold)
