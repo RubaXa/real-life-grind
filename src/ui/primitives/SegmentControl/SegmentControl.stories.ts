@@ -23,25 +23,31 @@ const options = [
 export const Morning: Story = {
   args: { options, value: 'tasks' },
   play: async ({ canvas, step }) => {
-    await step('Render contract: tasks pill has segment-active class', async () => {
-      const buttons = canvas.getAllByRole('button');
-      await expect(buttons).toHaveLength(3);
-      await expect(buttons[0]).toHaveClass('segment-active');
-      await expect(buttons[1]).not.toHaveClass('segment-active');
-      await expect(buttons[2]).not.toHaveClass('segment-active');
-    });
+    await step(
+      'Render contract: tasks pill has segment-active class',
+      async () => {
+        const buttons = canvas.getAllByRole('button');
+        await expect(buttons).toHaveLength(3);
+        await expect(buttons[0]).toHaveClass('segment-active');
+        await expect(buttons[1]).not.toHaveClass('segment-active');
+        await expect(buttons[2]).not.toHaveClass('segment-active');
+      },
+    );
   },
 };
 
 export const Evening: Story = {
   args: { options, value: 'shop' },
   play: async ({ canvas, step }) => {
-    await step('Render contract: shop pill has segment-active class', async () => {
-      const buttons = canvas.getAllByRole('button');
-      await expect(buttons).toHaveLength(3);
-      await expect(buttons[0]).not.toHaveClass('segment-active');
-      await expect(buttons[1]).not.toHaveClass('segment-active');
-      await expect(buttons[2]).toHaveClass('segment-active');
-    });
+    await step(
+      'Render contract: shop pill has segment-active class',
+      async () => {
+        const buttons = canvas.getAllByRole('button');
+        await expect(buttons).toHaveLength(3);
+        await expect(buttons[0]).not.toHaveClass('segment-active');
+        await expect(buttons[1]).not.toHaveClass('segment-active');
+        await expect(buttons[2]).toHaveClass('segment-active');
+      },
+    );
   },
 };

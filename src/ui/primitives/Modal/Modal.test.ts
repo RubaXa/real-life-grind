@@ -1,15 +1,20 @@
 // @file: Unit tests for Modal primitive — open/close behaviour, accessibility.
 // @consumers: vitest
 // @tasks: TSK-06
-import { describe, it, expect, beforeEach, afterEach, beforeAll } from 'vitest';
+
 import { mount, unmount } from 'svelte';
+import { afterEach, beforeAll, beforeEach, describe, expect, it } from 'vitest';
 import Modal from './Modal.svelte';
 
 beforeAll(() => {
-  HTMLDialogElement.prototype.showModal ??= function () { this.setAttribute('open', ''); };
-  HTMLDialogElement.prototype.close ??= function () { this.removeAttribute('open'); };
-  HTMLElement.prototype.showPopover ??= function () {};
-  HTMLElement.prototype.hidePopover ??= function () {};
+  HTMLDialogElement.prototype.showModal ??= function () {
+    this.setAttribute('open', '');
+  };
+  HTMLDialogElement.prototype.close ??= function () {
+    this.removeAttribute('open');
+  };
+  HTMLElement.prototype.showPopover ??= () => {};
+  HTMLElement.prototype.hidePopover ??= () => {};
 });
 
 type ModalContext = {

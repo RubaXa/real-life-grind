@@ -1,18 +1,18 @@
 // @file: Unit tests for SVG icon components — accessibility attributes.
 // @consumers: vitest
 // @tasks: TSK-06
-import { describe, it, expect, beforeEach, afterEach } from 'vitest';
-import { mount, unmount } from 'svelte';
 
-import Star from './Star.svelte';
-import Fire from './Fire.svelte';
-import Check from './Check.svelte';
-import Home from './Home.svelte';
-import Tasks from './Tasks.svelte';
-import Shop from './Shop.svelte';
-import Grades from './Grades.svelte';
+import { mount, unmount } from 'svelte';
+import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 import Bell from './Bell.svelte';
+import Check from './Check.svelte';
+import Fire from './Fire.svelte';
+import Grades from './Grades.svelte';
 import Hamburger from './Hamburger.svelte';
+import Home from './Home.svelte';
+import Shop from './Shop.svelte';
+import Star from './Star.svelte';
+import Tasks from './Tasks.svelte';
 
 type IconContext = {
   container: HTMLDivElement;

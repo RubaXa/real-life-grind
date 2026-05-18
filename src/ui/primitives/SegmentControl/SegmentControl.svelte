@@ -2,22 +2,22 @@
 <!-- @consumers: infra-ui components, web -->
 <!-- @tasks: TSK-06 -->
 <script lang="ts">
-  import { Toggle } from 'melt/builders';
-  import { classNames } from '../../lib';
+import { Toggle } from 'melt/builders';
+import { classNames } from '../../lib';
 
-  /**
-   * @purpose Renders a horizontally-stacked pill-toggle group where exactly one option is selected.
-   * @invariant Each segment is a Melt Toggle; only one can be active at a time.
-   * @param options Array of {id, label} defining the segments.
-   * @param value Bindable string matching the id of the selected option.
-   */
-  let {
-    options = $bindable([] as Array<{ id: string; label: string }>),
-    value = $bindable(''),
-  }: {
-    options?: Array<{ id: string; label: string }>;
-    value?: string;
-  } = $props();
+/**
+ * @purpose Renders a horizontally-stacked pill-toggle group where exactly one option is selected.
+ * @invariant Each segment is a Melt Toggle; only one can be active at a time.
+ * @param options Array of {id, label} defining the segments.
+ * @param value Bindable string matching the id of the selected option.
+ */
+let {
+  options = $bindable([] as Array<{ id: string; label: string }>),
+  value = $bindable(''),
+}: {
+  options?: Array<{ id: string; label: string }>;
+  value?: string;
+} = $props();
 </script>
 
 <div class="segment-control">

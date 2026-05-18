@@ -1,8 +1,9 @@
 // @file: Unit tests for Button primitive — variant rendering, disabled state, click handler.
 // @consumers: vitest
 // @tasks: TSK-06
-import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
+
 import { mount, unmount } from 'svelte';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import Button from './Button.svelte';
 
 type ButtonContext = {

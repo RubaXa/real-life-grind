@@ -2,16 +2,16 @@
 
 ## 1. Meta
 - **Task-ID:** TSK-04
-- **Status:** [x] DONE
-- **Purpose:** Сконфигурировать Firebase (эмуляторы), переменные окружения (.env.example), GitHub Actions CI/CD (check + build + deploy на GitHub Pages), финализировать npm-скрипты и прогнать полную цепочку проверок.
+- **Status:** [!] REOPEN
+- **Purpose:** Сконфигурировать Firebase (эмуляторы), переменные окружения (.env.example), ручной деплой на GitHub Pages (D-018), финализировать npm-скрипты и прогнать полную цепочку проверок.
 - **Scope:** infra-base
 - **Module:** N/A
 - **Dependencies:** TSK-02, TSK-03
-- **Reopens:** 0
+- **Reopens:** 1
 - **Spec References:**
-  - Contract: [Decision Log D-011 (Firebase), D-012 (GitHub Pages), D-014 (env)](../../specs/infra-base/infra-base.spec.md#7-decision-log)
+  - Contract: [Decision Log D-011 (Firebase), D-012 (GitHub Pages — superseded), D-018 (ручной деплой), D-014 (env)](../../specs/infra-base/infra-base.spec.md#7-decision-log)
   - Verification Commands: [section 6 check-command, ci-check-command](../../specs/infra-base/infra-base.spec.md#6-verification-commands)
-  - Dev Workflow: [section 3](../../specs/infra-base/infra-base.spec.md#3-developer-workflow-example)
+  - Dev Workflow: [section 3.5 Deploy Flow](../../specs/infra-base/infra-base.spec.md#35-deploy-flow-ручной)
 - **Runtime Backing:** `not-implemented` (конфигурационные файлы)
 - **Verification Levels:** `integration`
 - **Deferred Runtime Scope:** None
@@ -22,6 +22,8 @@
 | P1 | config | — | [!] BLOCKED |
 | P2 | config | P1 | [x] |
 | P3 | test | P1, P2 | [!] BLOCKED |
+| P4 | config | P2 | [ ] TODO |
+| P5 | test | P4 | [ ] TODO |
 
 ## 3. Phases
 
@@ -180,6 +182,50 @@ Contract: [infra-base spec 2 Tool Stack, 6 Verification Commands, 3 Dev Workflow
 - [x] `2026-05-17T16:17:44Z` DONE
 **Handoff →** artifacts: []; decisions: [check=fail-svelte-check-src-main-ts, ci-check=pass-with-individual-failures, build=pass, format=pass-idempotent, firebase-emulators=blocked-java]; open: [R-003: src/main.ts Svelte 5 mount(props) fix by TSK-02, R-001: Java для firebase эмуляторов]
 
-#### Round close
+- #### Round close
 - [x] `2026-05-17T14:40:00Z` sync infra-base+root
 - [x] `2026-05-17T14:40:00Z` DONE
+
+### Round 2 — 2026-05-18, pivot (D-018: замена CI-деплоя на ручной)
+
+#### P4 — config (deploy pivot)
+- **Objective:** Заменить CI-based деплой на ручной через `gh-pages` пакет. Удалить `ci.yml`, добавить `gh-pages` devDependency, добавить deploy-скрипты, добавить `storybook-static/` в `.gitignore`.
+- **Rules:**
+  *(config phase.)*
+- **Target Files:**
+  - `.github/workflows/ci.yml` (удалить)
+  - `package.json` (добавить `gh-pages`, скрипты `deploy`, `deploy:app`, `deploy:storybook`)
+  - `.gitignore` (добавить `storybook-static/`)
+- **Inputs:** Round 1 P2 handoff (ci.yml, package.json)
+- **Exit:**
+  - `.github/workflows/ci.yml` удалён
+  - `gh-pages` установлен как devDependency (`npm install -D gh-pages`)
+  - `package.json` скрипты:
+    - `deploy`: `npm run build && npm run storybook:build && rm -rf dist/storybook && cp -r storybook-static dist/storybook && touch dist/.nojekyll && gh-pages -d dist --no-history`
+    - `deploy:app`: `npm run build && touch dist/.nojekyll && gh-pages -d dist --no-history`
+    - `deploy:storybook`: `npm run storybook:build && mkdir -p dist-storybook && cp -r storybook-static dist-storybook/storybook && touch dist-storybook/.nojekyll && gh-pages -d dist-storybook --no-history && rm -rf dist-storybook`
+  - `.gitignore` содержит `storybook-static/`
+  - `storybook-static/` удалён из git-трекинга (`git rm -r --cached storybook-static/`)
+  - `npm run build` → exit=0
+  - `npm run storybook:build` → exit=0
+  - `gh-pages --version` → пакет доступен
+  - `npm run format` → exit=0 (идемпотентность)
+
+#### P5 — test (verification)
+- **Objective:** Верификация: билды + check проходят, deploy-файлы на месте.
+- **Rules:**
+  *(инфраструктурная верификация.)*
+- **Target Files:**
+  *(верификация без создания файлов)*
+- **Inputs:** P4 handoff
+- **Exit:**
+  - `npm run build` → exit=0, `dist/` содержит index.html, 404.html
+  - `npm run storybook:build` → exit=0, `storybook-static/` создан
+  - `npm run check` → exit=0
+  - `npm run format` → exit=0 (идемпотентность: повторный запуск не меняет файлы)
+  - `rm -rf dist/storybook && cp -r storybook-static dist/storybook` → `dist/storybook/` содержит storybook-статику
+  - `gh-pages --help` → exit=0
+
+#### Round close
+- [ ] `2026-05-18T00:00:00Z` sync infra-base+root
+- [ ] `2026-05-18T00:00:00Z` DONE

@@ -2,20 +2,20 @@
 <!-- @consumers: Storybook, web -->
 <!-- @tasks: TSK-07 -->
 <script lang="ts">
-  import Badge from '../../primitives/Badge/Badge.svelte';
-  import Star from '../../icons/Star.svelte';
+import Star from '../../icons/Star.svelte';
+import Badge from '../../primitives/Badge/Badge.svelte';
 
-  /**
-   * @purpose Points badge with gold star icon, points count, and glow effect.
-   * @param points Point count displayed in the badge.
-   */
-  let {
-    points = 0,
-  }: {
-    points?: number;
-  } = $props();
+/**
+ * @purpose Points badge with gold star icon, points count, and glow effect.
+ * @param points Point count displayed in the badge.
+ */
+let {
+  points = 0,
+}: {
+  points?: number;
+} = $props();
 
-  let displayLabel = $derived(String(points));
+let displayLabel = $derived(String(points));
 </script>
 
 <span class="points-badge">

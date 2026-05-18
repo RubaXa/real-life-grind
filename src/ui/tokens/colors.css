@@ -8,36 +8,36 @@
 
 :root {
   /* Background layers (navy system — never pure black) */
-  --c-bg-base:      #0F0F1A;   /* страница */
-  --c-bg-surface:   #1A1A2E;   /* карточки */
-  --c-bg-elevated:  #252545;   /* модалки, hover-состояния */
-  --c-bg-overlay:   #0F0F1A99; /* backdrop */
+  --c-bg-base: #0f0f1a; /* страница */
+  --c-bg-surface: #1a1a2e; /* карточки */
+  --c-bg-elevated: #252545; /* модалки, hover-состояния */
+  --c-bg-overlay: #0f0f1a99; /* backdrop */
 
   /* Gold — points, balance, currency (exclusive) */
-  --c-gold:         #F5C842;
-  --c-gold-glow:    #F5C84240;
-  --c-gold-dim:     #F5C84280;
+  --c-gold: #f5c842;
+  --c-gold-glow: #f5c84240;
+  --c-gold-dim: #f5c84280;
 
   /* Teal — primary actions (approve, buy, complete) */
-  --c-teal:         #4ECDC4;
-  --c-teal-glow:    #4ECDC430;
+  --c-teal: #4ecdc4;
+  --c-teal-glow: #4ecdc430;
 
   /* Red — penalty, burn, urgent (use sparingly) */
-  --c-red:          #FF6B6B;
-  --c-red-glow:     #FF6B6B30;
+  --c-red: #ff6b6b;
+  --c-red-glow: #ff6b6b30;
 
   /* Green — done, success, approved */
-  --c-green:        #6BCB77;
-  --c-green-glow:   #6BCB7730;
+  --c-green: #6bcb77;
+  --c-green-glow: #6bcb7730;
 
   /* Purple — school grades exclusively */
-  --c-purple:       #9B8EC4;
+  --c-purple: #9b8ec4;
 
   /* Muted — borders, dividers */
-  --c-muted:        #2E2E52;
+  --c-muted: #2e2e52;
 
   /* Text hierarchy */
-  --c-text-1:       #F0F0FA;   /* primary */
-  --c-text-2:       #9090B8;   /* secondary */
-  --c-text-3:       #55557A;   /* disabled, placeholder */
+  --c-text-1: #f0f0fa; /* primary */
+  --c-text-2: #9090b8; /* secondary */
+  --c-text-3: #55557a; /* disabled, placeholder */
 }

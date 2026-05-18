@@ -1,8 +1,9 @@
 // @file: Unit tests for Badge primitive — variant rendering.
 // @consumers: vitest
 // @tasks: TSK-06
-import { describe, it, expect, beforeEach, afterEach } from 'vitest';
+
 import { mount, unmount } from 'svelte';
+import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 import Badge from './Badge.svelte';
 
 type BadgeContext = {

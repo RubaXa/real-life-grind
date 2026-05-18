@@ -1,8 +1,9 @@
 // @file: Unit tests for SegmentControl primitive — toggle behaviour.
 // @consumers: vitest
 // @tasks: TSK-06
-import { describe, it, expect, beforeEach, afterEach } from 'vitest';
+
 import { mount, unmount } from 'svelte';
+import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 import SegmentControl from './SegmentControl.svelte';
 
 type SegmentControlContext = {

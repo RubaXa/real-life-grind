@@ -1,8 +1,9 @@
 // @file: Unit tests for PointsBadge — gold star icon, points display, glow effect.
 // @consumers: vitest
 // @tasks: TSK-07
-import { describe, it, expect, beforeEach, afterEach } from 'vitest';
+
 import { mount, unmount } from 'svelte';
+import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 import PointsBadge from './PointsBadge.svelte';
 
 type PointsBadgeContext = {

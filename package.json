@@ -21,7 +21,10 @@
     "lint": "biome check --write",
     "format": "biome format --write",
     "check": "tsc --noEmit && svelte-check --tsconfig ./tsconfig.json && vitest run && playwright test && biome check",
-    "ci-check": "tsc --noEmit & svelte-check --tsconfig ./tsconfig.json & vitest run & playwright test & biome check; wait"
+    "ci-check": "tsc --noEmit & svelte-check --tsconfig ./tsconfig.json & vitest run & playwright test & biome check; wait",
+    "deploy": "npm run build && npm run storybook:build && rm -rf dist/storybook && cp -r storybook-static dist/storybook && touch dist/.nojekyll && gh-pages -d dist --no-history",
+    "deploy:app": "npm run build && touch dist/.nojekyll && gh-pages -d dist --no-history",
+    "deploy:storybook": "npm run storybook:build && mkdir -p dist-storybook && cp -r storybook-static dist-storybook/storybook && touch dist-storybook/.nojekyll && gh-pages -d dist-storybook --no-history && rm -rf dist-storybook"
   },
   "keywords": [],
   "author": "",
@@ -35,6 +38,7 @@
     "@storybook/test-runner": "0.24.4",
     "@sveltejs/vite-plugin-svelte": "7.1.2",
     "firebase-tools": "15.18.0",
+    "gh-pages": "^6.3.0",
     "jsdom": "^29.1.1",
     "lefthook": "2.1.6",
     "serve": "14.2.6",

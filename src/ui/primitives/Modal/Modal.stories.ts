@@ -17,18 +17,24 @@ type Story = StoryObj;
 export const Open: Story = {
   args: { open: true, title: 'Уведомление' },
   play: async ({ step }) => {
-    await step('Render contract: dialog is visible via screen.getByRole', async () => {
-      const dialog = screen.getByRole('dialog');
-      await expect(dialog).toBeVisible();
-    });
+    await step(
+      'Render contract: dialog is visible via screen.getByRole',
+      async () => {
+        const dialog = screen.getByRole('dialog');
+        await expect(dialog).toBeVisible();
+      },
+    );
   },
 };
 
 export const Closed: Story = {
   args: { open: false, title: 'Уведомление' },
   play: async ({ step }) => {
-    await step('Render contract: dialog is not accessible when closed', async () => {
-      await expect(screen.queryByRole('dialog')).toBeNull();
-    });
+    await step(
+      'Render contract: dialog is not accessible when closed',
+      async () => {
+        await expect(screen.queryByRole('dialog')).toBeNull();
+      },
+    );
   },
 };

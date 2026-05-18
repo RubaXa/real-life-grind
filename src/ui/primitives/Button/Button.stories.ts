@@ -17,57 +17,76 @@ type Story = StoryObj;
 export const Primary: Story = {
   args: { variant: 'primary', label: 'Выполнить' },
   play: async ({ canvas, step }) => {
-    await step('Render contract: button has btn-primary class + role=button', async () => {
-      const button = canvas.getByRole('button');
-      await expect(button).toBeInTheDocument();
-      await expect(button).toHaveClass('btn-primary');
-    });
+    await step(
+      'Render contract: button has btn-primary class + role=button',
+      async () => {
+        const button = canvas.getByRole('button');
+        await expect(button).toBeInTheDocument();
+        await expect(button).toHaveClass('btn-primary');
+      },
+    );
   },
 };
 
 export const Approve: Story = {
   args: { variant: 'approve', label: 'Одобрить' },
   play: async ({ canvas, step }) => {
-    await step('Render contract: button has btn-approve class + role=button', async () => {
-      const button = canvas.getByRole('button');
-      await expect(button).toBeInTheDocument();
-      await expect(button).toHaveClass('btn-approve');
-    });
+    await step(
+      'Render contract: button has btn-approve class + role=button',
+      async () => {
+        const button = canvas.getByRole('button');
+        await expect(button).toBeInTheDocument();
+        await expect(button).toHaveClass('btn-approve');
+      },
+    );
   },
 };
 
 export const Reject: Story = {
   args: { variant: 'reject', label: 'Отклонить' },
-  parameters: { a11y: { config: { rules: [{ id: 'color-contrast', enabled: false }] } } },
+  parameters: {
+    a11y: { config: { rules: [{ id: 'color-contrast', enabled: false }] } },
+  },
   play: async ({ canvas, step }) => {
-    await step('Render contract: button has btn-reject class + role=button', async () => {
-      const button = canvas.getByRole('button');
-      await expect(button).toBeInTheDocument();
-      await expect(button).toHaveClass('btn-reject');
-    });
+    await step(
+      'Render contract: button has btn-reject class + role=button',
+      async () => {
+        const button = canvas.getByRole('button');
+        await expect(button).toBeInTheDocument();
+        await expect(button).toHaveClass('btn-reject');
+      },
+    );
   },
 };
 
 export const Buy: Story = {
   args: { variant: 'buy', label: 'Купить за 50 ⭐' },
   play: async ({ canvas, step }) => {
-    await step('Render contract: button has btn-buy class + role=button', async () => {
-      const button = canvas.getByRole('button');
-      await expect(button).toBeInTheDocument();
-      await expect(button).toHaveClass('btn-buy');
-    });
+    await step(
+      'Render contract: button has btn-buy class + role=button',
+      async () => {
+        const button = canvas.getByRole('button');
+        await expect(button).toBeInTheDocument();
+        await expect(button).toHaveClass('btn-buy');
+      },
+    );
   },
 };
 
 export const Ghost: Story = {
   args: { variant: 'ghost', label: 'Отмена' },
-  parameters: { a11y: { config: { rules: [{ id: 'color-contrast', enabled: false }] } } },
+  parameters: {
+    a11y: { config: { rules: [{ id: 'color-contrast', enabled: false }] } },
+  },
   play: async ({ canvas, step }) => {
-    await step('Render contract: button has btn-ghost class + role=button', async () => {
-      const button = canvas.getByRole('button');
-      await expect(button).toBeInTheDocument();
-      await expect(button).toHaveClass('btn-ghost');
-    });
+    await step(
+      'Render contract: button has btn-ghost class + role=button',
+      async () => {
+        const button = canvas.getByRole('button');
+        await expect(button).toBeInTheDocument();
+        await expect(button).toHaveClass('btn-ghost');
+      },
+    );
   },
 };
 

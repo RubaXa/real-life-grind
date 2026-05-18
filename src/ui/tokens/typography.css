@@ -9,12 +9,12 @@
 /* Inter is primary for all UI text. Inter Mono for timers only. */
 
 :root {
-  --points:       800 40px 'Inter', sans-serif;
-  --display:      700 28px 'Inter', sans-serif;
-  --heading:      600 20px 'Inter', sans-serif;
-  --body:         400 16px 'Inter', sans-serif;
-  --label:        500 14px 'Inter', sans-serif;
-  --caption:      400 12px 'Inter', sans-serif;
-  --timer-calm:   400 12px 'Inter Mono', monospace;
-  --timer-urgent: 600 14px 'Inter Mono', monospace;
+  --points: 800 40px "Inter", sans-serif;
+  --display: 700 28px "Inter", sans-serif;
+  --heading: 600 20px "Inter", sans-serif;
+  --body: 400 16px "Inter", sans-serif;
+  --label: 500 14px "Inter", sans-serif;
+  --caption: 400 12px "Inter", sans-serif;
+  --timer-calm: 400 12px "Inter Mono", monospace;
+  --timer-urgent: 600 14px "Inter Mono", monospace;
 }

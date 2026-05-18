@@ -2,22 +2,22 @@
 <!-- @consumers: infra-ui components, web -->
 <!-- @tasks: TSK-06 -->
 <script lang="ts">
-  import { classNames } from '../../lib';
+import { classNames } from '../../lib';
 
-  type BadgeVariant = 'points' | 'penalty' | 'count';
+type BadgeVariant = 'points' | 'penalty' | 'count';
 
-  /**
-   * @purpose Renders a compact label badge with variant-driven styling.
-   * @param variant Visual variant driving color and background token.
-   * @param label Text displayed inside the badge.
-   */
-  let {
-    variant = 'points',
-    label = '',
-  }: {
-    variant?: BadgeVariant;
-    label?: string;
-  } = $props();
+/**
+ * @purpose Renders a compact label badge with variant-driven styling.
+ * @param variant Visual variant driving color and background token.
+ * @param label Text displayed inside the badge.
+ */
+let {
+  variant = 'points',
+  label = '',
+}: {
+  variant?: BadgeVariant;
+  label?: string;
+} = $props();
 </script>
 
 <span class={classNames('badge', `badge-${variant}`)}>

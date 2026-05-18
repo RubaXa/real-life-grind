@@ -2,28 +2,28 @@
 <!-- @consumers: infra-ui components, web -->
 <!-- @tasks: TSK-06 -->
 <script lang="ts">
-  import { classNames } from '../../lib';
+import { classNames } from '../../lib';
 
-  type ButtonVariant = 'primary' | 'approve' | 'reject' | 'buy' | 'ghost';
+type ButtonVariant = 'primary' | 'approve' | 'reject' | 'buy' | 'ghost';
 
-  /**
-   * @purpose Renders a styled button using one of five semantic variants.
-   * @param variant Visual variant mapped to component CSS tokens.
-   * @param label Text displayed inside the button.
-   * @param disabled Prevents interaction when true.
-   * @param onclick Callback fired on click.
-   */
-  let {
-    variant = 'primary',
-    label = '',
-    disabled = false,
-    onclick,
-  }: {
-    variant?: ButtonVariant;
-    label?: string;
-    disabled?: boolean;
-    onclick?: () => void;
-  } = $props();
+/**
+ * @purpose Renders a styled button using one of five semantic variants.
+ * @param variant Visual variant mapped to component CSS tokens.
+ * @param label Text displayed inside the button.
+ * @param disabled Prevents interaction when true.
+ * @param onclick Callback fired on click.
+ */
+let {
+  variant = 'primary',
+  label = '',
+  disabled = false,
+  onclick,
+}: {
+  variant?: ButtonVariant;
+  label?: string;
+  disabled?: boolean;
+  onclick?: () => void;
+} = $props();
 </script>
 
 <button

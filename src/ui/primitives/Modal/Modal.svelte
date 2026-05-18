@@ -2,31 +2,31 @@
 <!-- @consumers: infra-ui components, web -->
 <!-- @tasks: TSK-06 -->
 <script lang="ts">
-  import { Dialog } from 'melt/builders';
-  import { classNames } from '../../lib';
+import { Dialog } from 'melt/builders';
+import { classNames } from '../../lib';
 
-  /**
-   * @purpose Renders a modal dialog with backdrop overlay, fade animation, and bindable open state.
-   * @invariant Uses native <dialog> + popover overlay for accessibility and animation support.
-   * @param open Bindable boolean controlling dialog visibility.
-   * @param title Heading text rendered inside the dialog.
-   * @param children Snippet for modal body content.
-   */
-  let {
-    open = $bindable(false),
-    title = '',
-    children
-  }: {
-    open?: boolean;
-    title?: string;
-    children?: import('svelte').Snippet;
-  } = $props();
+/**
+ * @purpose Renders a modal dialog with backdrop overlay, fade animation, and bindable open state.
+ * @invariant Uses native <dialog> + popover overlay for accessibility and animation support.
+ * @param open Bindable boolean controlling dialog visibility.
+ * @param title Heading text rendered inside the dialog.
+ * @param children Snippet for modal body content.
+ */
+let {
+  open = $bindable(false),
+  title = '',
+  children,
+}: {
+  open?: boolean;
+  title?: string;
+  children?: import('svelte').Snippet;
+} = $props();
 
-  const dialog = new Dialog({ open, onOpenChange: (v) => open = v });
+const dialog = new Dialog({ open, onOpenChange: (v) => (open = v) });
 
-  $effect(() => {
-    dialog.open = open;
-  });
+$effect(() => {
+  dialog.open = open;
+});
 </script>
 
 <!-- svelte-ignore a11y_no_static_element_interactions -->

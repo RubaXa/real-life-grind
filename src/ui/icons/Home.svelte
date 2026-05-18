@@ -2,12 +2,12 @@
 <!-- @consumers: infra-ui primitives, components -->
 <!-- @tasks: TSK-06 -->
 <script lang="ts">
-  interface Props {
-    size?: number;
-    class?: string;
-    ariaLabel?: string;
-  }
-  let { size = 24, class: className = '', ariaLabel = 'Домой' }: Props = $props();
+interface Props {
+  size?: number;
+  class?: string;
+  ariaLabel?: string;
+}
+let { size = 24, class: className = '', ariaLabel = 'Домой' }: Props = $props();
 </script>
 
 <svg

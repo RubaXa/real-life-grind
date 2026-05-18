@@ -32,7 +32,8 @@ infrastructure
 | local-storage | optional | ✅ | Dexie.js — IndexedDB wrapper для local-first |
 | svelte-check | optional | ✅ | svelte-check — диагностика Svelte-специфичных ошибок |
 
-Not covered (deferred): ci, monorepo-tool, docs, test-ui (Storybook), observability, renovate (dependency updates).
+Not covered (deferred): ci, monorepo-tool, docs, observability, renovate (dependency updates).
+Partially covered: test-ui (Storybook — build + deploy через `gh-pages`, без visual regression testing).
 
 ### 2.2 Tool Choices
 
@@ -138,8 +139,11 @@ npm run deploy:storybook
 **Принцип работы `npm run deploy`:**
 1. `npm run build` → `dist/` (SPA: index.html, 404.html, sw.js, manifest, assets)
 2. `npm run storybook:build` → `storybook-static/`
-3. `cp -r storybook-static dist/storybook` — Storybook внутри SPA-папки
-4. `gh-pages -d dist` — публикация `dist/` в корень ветки `gh-pages`
+3. `rm -rf dist/storybook && cp -r storybook-static dist/storybook` — Storybook внутри SPA-папки
+4. `touch dist/.nojekyll` — отключает Jekyll-обработку на GitHub Pages
+5. `gh-pages -d dist --no-history` — публикация `dist/` в корень ветки `gh-pages` (полная замена, без накопления stale assets)
+
+**Важно:** `vite.config.ts` должен содержать `base: '/real-life-grind/'` для корректной загрузки ассетов на project site. PWA manifest: `start_url: '/real-life-grind/'`, `scope: '/real-life-grind/'`.
 
 GitHub Pages настроен на ветку `gh-pages` (корень). SPA доступен по `https://<user>.github.io/real-life-grind/`, Storybook — по `https://<user>.github.io/real-life-grind/storybook/`.
 
@@ -355,7 +359,7 @@ real-life-grind/
 - **Status:** active
 - **Recorded:** session Discovery, infra-base, pivot
 - **Supersedes:** D-012
-- **Pre-rework state:** git ref `21ad60e` (ci.yml с `peaceiris/actions-gh-pages@v4`, деплой SPA через GitHub Actions при push в main)
+- **Pre-rework state:** git ref `21ad60efe1fba7e72a7045428da29bb4e19d9f9a` (ci.yml с `peaceiris/actions-gh-pages@v4`, деплой SPA через GitHub Actions при push в main)
 - **Was:** Автоматический деплой SPA на GitHub Pages через GitHub Actions (`peaceiris/actions-gh-pages@v4`) при push в main. Storybook деплоился отдельно.
 - **Now:** Ручной деплой SPA + Storybook через `gh-pages` npm-пакет одной командой `npm run deploy`. Storybook публикуется в поддиректорию `/storybook/` на том же GitHub Pages. CI workflow (`.github/workflows/ci.yml`) удалён — GitHub Actions недоступен.
 - **Why:** GitHub Actions account заблокирован из-за billing issue. Ручной деплой через `gh-pages` — минимальное изменение без смены хостинг-провайдера. Storybook объединён с SPA в один деплой (один source of truth для статики).
@@ -428,3 +432,10 @@ real-life-grind/
   6. **Синхронизация IndexedDB ↔ Firestore** — Dexie.js + Firestore требуют явного протокола синхронизации. Стратегия (CRDT, last-write-wins, заказная) определяется в scope `domain-lib`. До этого все данные пишутся напрямую в Firestore с offline persistence.
   7. **svelte-check rule file отсутствует** — правило для `svelte-check` отсутствует в `ai/directives/`. Аналогично Biome — deferred до создания `ai/directives/infra/svelte-check-setup.xml`.
   8. **Firebase free-tier квоты** — 50K reads/day, 20K writes/day. При активном использовании (10 задач × 4 чел × 20 обновлений/день = ~800 writes/day) запас >20x. Тем не менее, отсутствует мониторинг — deferred до observability-скопа. Требуется проверка расчёта на реальных данных в v1.
+  9. **GitHub Actions недоступен** — деплой только вручную через `npm run deploy`. CI-проверки (`npm run ci-check`) по-прежнему работают локально, но нет автоматического прогона при PR/push. При разблокировке GitHub Actions — создать новый CI workflow (без деплоя, только `npm run ci-check` + `npm run build` для валидации).
+
+### 10.1 Pivot Invalidation List (D-018)
+- **Module specs requiring refine:** None (инфраструктурный скоп — не имеет модулей)
+- **Tasks requiring reopen:**
+  - **TSK-04** — Round 2: замена CI-деплоя на ручной (`gh-pages` пакет, deploy-скрипты, удаление `ci.yml`)
+- **Rules to revisit:** None (правило CI отсутствовало — было deferred)
