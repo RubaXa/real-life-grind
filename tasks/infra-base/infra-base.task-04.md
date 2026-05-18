@@ -198,6 +198,7 @@ Contract: [infra-base spec 2 Tool Stack, 6 Verification Commands, 3 Dev Workflow
   - `.github/workflows/ci.yml` (удалить)
   - `package.json` (добавить `gh-pages`, скрипты `deploy`, `deploy:app`, `deploy:storybook`)
   - `.gitignore` (добавить `storybook-static/`)
+  - `package-lock.json` (автообновление npm)
 - **Inputs:** Round 1 P2 handoff (ci.yml, package.json)
 - **Exit:**
   - `.github/workflows/ci.yml` удалён
@@ -224,8 +225,9 @@ Contract: [infra-base spec 2 Tool Stack, 6 Verification Commands, 3 Dev Workflow
 - [x] `2026-05-18T09:32:00Z` ver `npm run build` → pass exit=0
 - [x] `2026-05-18T09:33:00Z` ver `npm run storybook:build` → pass exit=0
 - [x] `2026-05-18T09:33:00Z` ver `gh-pages --version` → pass (6.3.0)
+- [x] `2026-05-18T09:33:00Z` file `package-lock.json` (автообновление npm install/uninstall gh-pages)
 - [x] `2026-05-18T09:33:00Z` DONE
-**Handoff →** artifacts: [package.json, .gitignore]; decisions: [gh-pages@6.3.0, deploy-scripts=3, ci.yml=removed, storybook-static=untracked]; open: []
+**Handoff →** artifacts: [package.json, package-lock.json, .gitignore]; decisions: [gh-pages@6.3.0, deploy-scripts=3, ci.yml=removed, storybook-static=untracked]; open: []
 
 #### P5 — test (verification)
 - **Objective:** Верификация: билды + check проходят, deploy-файлы на месте.
