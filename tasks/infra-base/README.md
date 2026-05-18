@@ -28,10 +28,10 @@ graph TD
 ## Tracker
 | Task-ID | Title | Dependencies | Status | Reopens |
 |---------|-------|--------------|--------|---------|
-| [TSK-01](infra-base.task-01.md) | Bootstrap — npm-проект, зависимости, .gitignore | None | `[ ]` TODO | 0 |
-| [TSK-02](infra-base.task-02.md) | Конфигурация сборки — Vite, Svelte, TypeScript, PWA | TSK-01 | `[ ]` TODO | 0 |
-| [TSK-03](infra-base.task-03.md) | Конфигурация качества — Biome, lefthook, Vitest, Playwright | TSK-01 | `[ ]` TODO | 0 |
-| [TSK-04](infra-base.task-04.md) | Конфигурация деплоя — Firebase, .env, CI, скрипты | TSK-02, TSK-03 | `[ ]` TODO | 0 |
+| [TSK-01](infra-base.task-01.md) | Bootstrap — npm-проект, зависимости, .gitignore | None | `[x]` DONE | 0 |
+| [TSK-02](infra-base.task-02.md) | Конфигурация сборки — Vite, Svelte, TypeScript, PWA | TSK-01 | `[x]` DONE | 0 |
+| [TSK-03](infra-base.task-03.md) | Конфигурация качества — Biome, lefthook, Vitest, Playwright | TSK-01 | `[x]` DONE | 0 |
+| [TSK-04](infra-base.task-04.md) | Конфигурация деплоя — Firebase, .env, CI, скрипты | TSK-02, TSK-03 | `[x]` DONE | 0 |
 
 ## Notes
 - Задачи укрупнены по решению D-SC-001 (оператор: «не дробить слишком мелко»).

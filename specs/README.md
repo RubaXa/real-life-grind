@@ -22,7 +22,7 @@ graph TD
 | Scope | Type | Spec | Description |
 |---|---|---|---|
 | [`infra-base`](./infra-base/infra-base.spec.md) | infrastructure | ✅ | **Фундамент сборки:** TypeScript, Vite, Svelte 5, Vitest, Playwright, Biome, lefthook, Firebase, PWA. Поставляет все dev-инструменты и скрипты проверок. |
-| [`infra-ui`](./infra-ui/infra-ui.spec.md) | infrastructure | ✅ | **Дизайн-система и UI-кит:** Storybook 8, 19 Svelte 5/Melt UI компонентов, CSS design-токены, темизация. `web` потребляет UI-кит через `src/ui/index.ts`. |
+| [`infra-ui`](./infra-ui/infra-ui.spec.md) | infrastructure | ✅ | **Дизайн-система и UI-кит:** Storybook 10, 19 Svelte 5/Melt UI компонентов, CSS design-токены, темизация, play-function stories + a11y. `web` потребляет UI-кит через `src/ui/index.ts`. |
 | `domain-lib` | library | 🚧 | **Бизнес-логика:** 6 изолированных bounded-контекстов (Family, Tasks, Ledger, School, Store, Inbox). Не зависит от UI. Потребляется `web`. |
 | `web` | product | 🚧 | **SPA-приложение:** Svelte 5, local-first PWA, Firebase-синхронизация. Зависит от `infra-base` (сборка), `infra-ui` (UIKit), `domain-lib` (логика). |
 

@@ -28,8 +28,8 @@ graph TD
 | [TSK-05](infra-ui.task-05.md) | Bootstrap: Storybook, токены, тема, скрипты | TSK-04 | [x] DONE | 0 |
 | [TSK-06](infra-ui.task-06.md) | Primitives, Icons, Utils | TSK-05 | [x] DONE | 0 |
 | [TSK-07](infra-ui.task-07.md) | Demo: проверка инфраструктуры на одном компоненте | TSK-06 | [x] DONE | 0 |
+| [TSK-08](infra-ui.task-08.md) | Play-function stories + a11y tests | TSK-07 | [x] DONE | 0 |
 
 ## Notes
-- TSK-05: пакеты + токены + конфиги. TSK-06: примитивы + иконки + lib.ts. TSK-07: один демо-компонент для верификации цепочки «токены → примитивы → Storybook → тесты».
+- TSK-05: пакеты + токены + конфиги. TSK-06: примитивы + иконки + lib.ts. TSK-07: демо-компонент. TSK-08: динамические play-function stories + a11y.
 - Продуктовые компоненты (TaskCard, SlideToComplete, TabBar, ...) — зона `web`-скоупа.
-| [TSK-08](infra-ui.task-08.md) | Play-function stories + a11y tests | TSK-07 | [x] DONE | 0 |

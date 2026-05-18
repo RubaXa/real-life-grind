@@ -70,3 +70,14 @@ export const Ghost: Story = {
     });
   },
 };
+
+export const Click: Story = {
+  args: { variant: 'primary', label: 'Нажми меня', onclick: fn() },
+  play: async ({ canvas, step, args }) => {
+    await step('Динамика: клик по кнопке → обработчик вызван', async () => {
+      const button = canvas.getByRole('button', { name: 'Нажми меня' });
+      await userEvent.click(button);
+      await expect(args.onclick).toHaveBeenCalledTimes(1);
+    });
+  },
+};

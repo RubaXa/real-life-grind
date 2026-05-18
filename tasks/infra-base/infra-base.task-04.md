@@ -138,7 +138,7 @@ Contract: [infra-base spec 2 Tool Stack, 6 Verification Commands, 3 Dev Workflow
 ## 7. Execution Log
 *(Round = one execute-then-audit attempt. Token vocabulary + protocol in [tasks/README.md#execution-log-template](../../README.md#execution-log-template).)*
 
-### Round 1 — YYYY-MM-DD, initial
+### Round 1 — 2026-05-17, initial
 
 #### P1
 - [x] `2026-05-17T15:58:41Z` recon targets=firebase.json=absent,.firebaserc=absent,.env.example=absent divergence=none

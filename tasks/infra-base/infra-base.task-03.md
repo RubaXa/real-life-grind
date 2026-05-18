@@ -116,7 +116,7 @@ Contract: [infra-base spec 2 Tool Stack, 6 Verification Commands](../../specs/in
 ## 7. Execution Log
 *(Round = one execute-then-audit attempt. Token vocabulary + protocol in [tasks/README.md#execution-log-template](../../README.md#execution-log-template).)*
 
-### Round 1 — YYYY-MM-DD, initial
+### Round 1 — 2026-05-17, initial
 
 #### P1
 - [x] `2026-05-17T14:00:26Z` recon targets=lefthook.yml=exists, biome.json=absent, vitest.config.ts=absent, playwright.config.ts=absent divergence=none

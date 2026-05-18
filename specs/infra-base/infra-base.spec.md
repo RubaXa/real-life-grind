@@ -122,14 +122,33 @@ npx playwright test --debug  # Playwright Inspector
 npx firebase emulators:start
 ```
 
+### 3.5 Deploy Flow (ручной)
+
+```bash
+# Полный деплой: SPA (корень) + Storybook (/storybook/) на GitHub Pages
+npm run deploy
+
+# Деплой только SPA
+npm run deploy:app
+
+# Деплой только Storybook (в /storybook/)
+npm run deploy:storybook
+```
+
+**Принцип работы `npm run deploy`:**
+1. `npm run build` → `dist/` (SPA: index.html, 404.html, sw.js, manifest, assets)
+2. `npm run storybook:build` → `storybook-static/`
+3. `cp -r storybook-static dist/storybook` — Storybook внутри SPA-папки
+4. `gh-pages -d dist` — публикация `dist/` в корень ветки `gh-pages`
+
+GitHub Pages настроен на ветку `gh-pages` (корень). SPA доступен по `https://<user>.github.io/real-life-grind/`, Storybook — по `https://<user>.github.io/real-life-grind/storybook/`.
+
 ## 4. File Structure
 
 ### 4.1 Repository Root Layout
 
 ```
 real-life-grind/
-├── .github/
-│   └── workflows/           # CI pipelines (deferred)
 ├── ai/
 │   └── directives/          # SDD directives (managed by SDD framework)
 ├── specs/                   # SDD specifications
@@ -143,7 +162,7 @@ real-life-grind/
 ├── .node-version            # Node.js version pin (22)
 ├── .env.example             # Шаблон переменных окружения (VITE_-префикс)
 ├── .env                     # В gitignore — реальные ключи Firebase
-├── package.json             # Dependencies + scripts
+├── package.json             # Dependencies + scripts (включая deploy-скрипты)
 ├── package-lock.json        # Lockfile (deterministic installs)
 ├── tsconfig.json            # TypeScript config
 ├── vite.config.ts           # Vite config
@@ -151,7 +170,10 @@ real-life-grind/
 ├── lefthook.yml             # Git hooks orchestration
 ├── firebase.json            # Firebase config (emulators, hosting)
 ├── .firebaserc              # Firebase project alias (для CLI) → в .gitignore, генерируется `firebase use`)
-└── index.html               # SPA entry point
+├── index.html               # SPA entry point
+├── dist/                    # Билд SPA (в .gitignore)
+│   └── storybook/           # Storybook static (копируется при deploy)
+└── storybook-static/        # Билд Storybook (в .gitignore)
 ```
 
 ### 4.2 Config File ↔ Tool Mapping
@@ -159,7 +181,7 @@ real-life-grind/
 | Config File | Tool | Purpose |
 |---|---|---|
 | `.node-version` | Node.js | Версия рантайма (читается fnm/volta/nvm) |
-| `package.json` | npm | Зависимости, скрипты, engines |
+| `package.json` | npm | Зависимости, скрипты (включая `deploy`, `deploy:app`, `deploy:storybook`) |
 | `package-lock.json` | npm | Детерминированные installs |
 | `tsconfig.json` | TypeScript | Компиляция, strict-режим, paths |
 | `vite.config.ts` | Vite | Бандл, dev-server, плагины |
@@ -286,13 +308,13 @@ real-life-grind/
 - **Risk accepted:** Vendor lock-in (Firestore — проприетарная БД). Сложность локального тестирования без эмуляторов.
 - **Rejected alternatives:** Supabase (лучше SQL, но требует отдельного хостинга), custom Node.js backend (дороже в разработке и поддержке).
 
-### D-012 — GitHub Pages как хостинг
-- **Status:** active
+### D-012 — GitHub Pages как хостинг (superseded)
+- **Status:** superseded
 - **Recorded:** session Discovery, infra-base
-- **Why:** Бесплатный, интегрирован с GitHub-репозиторием. Автоматический деплой через GitHub Actions. Поддерживает SPA (через 404.html fallback). Не требует отдельного домена на старте.
-- **SPA fallback:** После билда `dist/index.html` копируется в `dist/404.html`. GitHub Pages отдаёт 404.html для любого несуществующего пути — SPA-роутер получает управление. Альтернатива: хэш-роутинг (выбрана history-роутинг с 404-костылём для чистых URL).
-- **Risk accepted:** Статический хостинг — нельзя выполнять серверный код. Не подходит для SSR (но Svelte как SPA этого не требует).
-- **Rejected alternatives:** Vercel (бесплатный, но лимиты на коммерческое использование), Netlify (аналогично Vercel), Firebase Hosting (платный при масштабировании).
+- **Superseded by:** D-018
+- **Why superseded:** GitHub Actions account заблокирован из-за billing issue — CI workflow недоступен. Деплой перенесён на ручной запуск через npm-скрипт.
+- **Was:** Автоматический деплой SPA на GitHub Pages через GitHub Actions (`peaceiris/actions-gh-pages@v4`) при push в main. Storybook деплоился отдельно.
+- **Risk accepted:** Автоматический деплой через CI был удобен, но не критичен для семейного проекта на v1.
 
 ### D-013 — Google Authentication через Firebase Auth
 - **Status:** active
@@ -329,6 +351,17 @@ real-life-grind/
 - **Risk accepted:** Пересекается с Biome по некоторым проверкам (дублирование предупреждений).
 - **Rejected alternatives:** ESLint + eslint-plugin-svelte (нужен ESLint — конфликтует с D-005), полагаться только на TypeScript (не покрывает семантику runes и template-ошибки).
 
+### D-018 — Ручной деплой через gh-pages пакет (rework)
+- **Status:** active
+- **Recorded:** session Discovery, infra-base, pivot
+- **Supersedes:** D-012
+- **Pre-rework state:** git ref `21ad60e` (ci.yml с `peaceiris/actions-gh-pages@v4`, деплой SPA через GitHub Actions при push в main)
+- **Was:** Автоматический деплой SPA на GitHub Pages через GitHub Actions (`peaceiris/actions-gh-pages@v4`) при push в main. Storybook деплоился отдельно.
+- **Now:** Ручной деплой SPA + Storybook через `gh-pages` npm-пакет одной командой `npm run deploy`. Storybook публикуется в поддиректорию `/storybook/` на том же GitHub Pages. CI workflow (`.github/workflows/ci.yml`) удалён — GitHub Actions недоступен.
+- **Why:** GitHub Actions account заблокирован из-за billing issue. Ручной деплой через `gh-pages` — минимальное изменение без смены хостинг-провайдера. Storybook объединён с SPA в один деплой (один source of truth для статики).
+- **Risk accepted:** Деплой только вручную — оператор должен помнить запушить после изменений. Storybook и SPA деплоятся вместе — нельзя обновить только один.
+- **Rejected alternatives:** Vercel/Netlify (другой провайдер — overhead миграции), Firebase Hosting (платный), раздельные деплой-команды для SPA и Storybook (усложнение без выигрыша на v1).
+
 ## 8. Scope Dependencies
 
 - **Depends on:** None (инфраструктурный скоп — листовой узел)
@@ -353,6 +386,7 @@ real-life-grind/
 | `vite-plugin-pwa` | package | this-scope-task | `npm install -D vite-plugin-pwa` |
 | `dexie` | package | this-scope-task | `npm install dexie` |
 | `svelte-check` | package | this-scope-task | `npm install -D svelte-check` |
+| `gh-pages` | package | this-scope-task | `npm install -D gh-pages` |
 | `.firebaserc` | file | this-scope-task | `npx firebase use <project-id>` (генерирует алиас проекта) |
 | `ai/directives/infra/nodejs-npm-setup.xml` | file | external-prereq-scope | Существует в `ai/directives/` |
 | `ai/directives/infra/git-setup.xml` | file | external-prereq-scope | Существует в `ai/directives/` |
@@ -375,9 +409,9 @@ real-life-grind/
   8. Конфигурация PWA (`vite-plugin-pwa` в `vite.config.ts`, стратегии кэширования)
   9. Конфигурация Firebase (`firebase.json`, эмуляторы)
   10. Переменные окружения (`.env.example` с VITE_FIREBASE_*-ключами, `.env` в `.gitignore`)
-  11. `.gitignore` (node_modules, dist, .firebase, coverage, .env, env-файлы)
-  12. npm-скрипты: `dev`, `build`, `preview`, `check`, `ci-check`, `typecheck`, `svelte-check`, `test`, `test:e2e`, `lint`, `format`
-  13. CI: GitHub Actions workflow (ci-check: параллельный прогон typecheck + svelte-check + lint + test + build + deploy на GitHub Pages)
+  11. `.gitignore` (node_modules, dist, storybook-static, .firebase, coverage, .env, env-файлы)
+  12. npm-скрипты: `dev`, `build`, `preview`, `check`, `ci-check`, `typecheck`, `svelte-check`, `test`, `test:e2e`, `lint`, `format`, `deploy`, `deploy:app`, `deploy:storybook`
+  13. Деплой-инструмент `gh-pages` + скрипты ручного деплоя (D-018, замена CI)
 
 - **Effective rules ready for cascade:** см. раздел 5
 
