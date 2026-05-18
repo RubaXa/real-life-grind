@@ -5,6 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Real-Life Grind</title>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <script>
+      if (location.pathname.includes('/storybook')) {
+        location.replace('/real-life-grind/storybook/index.html');
+      }
+    </script>
   </head>
   <body>
     <div id="app"></div>

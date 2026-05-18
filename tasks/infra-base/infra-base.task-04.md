@@ -23,7 +23,8 @@
 | P2 | config | P1 | [x] |
 | P3 | test | P1, P2 | [!] BLOCKED |
 | P4 | config | P2 | [ ] TODO |
-| P5 | test | P4 | [ ] TODO |
+| P5 | test | P4 | [x] |
+| P6 | config | P5 | [x] |
 
 ## 3. Phases
 
@@ -252,6 +253,30 @@ Contract: [infra-base spec 2 Tool Stack, 6 Verification Commands, 3 Dev Workflow
 - [x] `2026-05-18T09:35:00Z` DONE
 **Handoff →** artifacts: []; decisions: [build=pass, storybook:build=pass, check=pass, format=pass-idempotent, storybook-copy=pass]; open: []
 
+#### P6 — config (404 storybook fix)
+- **Objective:** Починить редирект `/storybook/` → `storybook/index.html`. GitHub Pages с custom_404 перехватывает directory index. Добавить inline-скрипт в `index.html` (Vite source).
+- **Rules:**
+  *(config phase.)*
+- **Target Files:**
+  - `index.html` (Vite source — добавить storybook-редирект)
+- **Inputs:** Round 2 P5 handoff
+- **Exit:**
+  - `index.html` содержит скрипт-редирект для storybook-путей
+  - `npm run build` → exit=0
+  - `npm run deploy` → `/storybook/` отдаёт Storybook HTML (200)
+  - `curl -sI rubaxa.github.io/real-life-grind/storybook/` → 200, заголовок storybook
+
+#### P6 Execution Log
+- [x] 2026-05-18T10:48:00Z recon targets=index.html=exists divergence=none
+- [x] 2026-05-18T10:48:00Z rules (none — config phase)
+- [x] 2026-05-18T10:48:00Z insight GitHub Pages custom_404 перехватывает storybook/ → добавить редирект в index.html → spec D-019
+- [x] 2026-05-18T10:48:00Z file index.html (добавлен storybook-редирект перед SPA)
+- [x] 2026-05-18T10:49:00Z ver npm run build → pass exit=0
+- [x] 2026-05-18T10:50:00Z ver npm run deploy → pass, Pages build success
+- [x] 2026-05-18T10:50:00Z ver curl /storybook/ → pass, 200 + storybook title
+- [x] 2026-05-18T10:50:00Z DONE
+**Handoff →** artifacts: [index.html]; decisions: [404-redirect=inline-script, storybook-path=checked-before-spa]; open: []
+
 #### Round close
-- [x] `2026-05-18T09:36:00Z` sync infra-base+root
-- [x] `2026-05-18T09:36:00Z` DONE
+- [x] 2026-05-18T10:51:00Z sync infra-base+root
+- [x] 2026-05-18T10:51:00Z DONE

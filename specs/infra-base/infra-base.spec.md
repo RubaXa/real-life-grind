@@ -367,6 +367,14 @@ real-life-grind/
 - **Risk accepted:** Деплой только вручную — оператор должен помнить запушить после изменений. Storybook и SPA деплоятся вместе — нельзя обновить только один.
 - **Rejected alternatives:** Vercel/Netlify (другой провайдер — overhead миграции), Firebase Hosting (платный), раздельные деплой-команды для SPA и Storybook (усложнение без выигрыша на v1).
 
+### D-019 — GitHub Pages 404.html конфликт с поддиректориями
+- **Status:** active
+- **Recorded:** session Discovery, infra-base, deploy verification
+- **Why:** GitHub Pages с `404.html` (SPA fallback) перехватывает ВСЕ не-файловые пути, включая директории с `index.html` внутри (`/storybook/` → `404.html` вместо `storybook/index.html`). Это известное ограничение GitHub Pages: когда `404.html` существует, он имеет приоритет над directory index resolution.
+- **Solution:** В исходный `index.html` (Vite) добавлен inline-скрипт ПЕРЕД SPA-кодом, который редиректит storybook-пути на `storybook/index.html`. Поскольку `404.html` — копия `index.html`, скрипт срабатывает в обоих случаях. Storybook-файлы (`storybook/index.html`) не содержат этого скрипта (это отдельный билд), поэтому редирект-лупа нет.
+- **Verification:** `curl -sI /storybook/` → 301 → `/storybook/index.html` → 200 (Storybook HTML). `curl -sI /some-spa-route` → 200 (SPA HTML через 404). `curl -sI /` → 200 (SPA HTML).
+- **Risk accepted:** Глубокие ссылки Storybook (`/storybook/iframe.html?id=...`) работают напрямую (это файлы, не проходят через 404). Ненайденные storybook-пути редиректятся на корень Storybook (приемлемо).
+
 ## 8. Scope Dependencies
 
 - **Depends on:** None (инфраструктурный скоп — листовой узел)
