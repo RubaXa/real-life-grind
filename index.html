@@ -6,9 +6,16 @@
     <title>Real-Life Grind</title>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <script>
-      if (location.pathname.includes('/storybook')) {
-        location.replace('/real-life-grind/storybook/index.html');
-      }
+      (function () {
+        var p = location.pathname;
+        if (
+          p.includes('/storybook') &&
+          !p.match(/\.\w+$/) &&
+          p !== '/real-life-grind/storybook/index.html'
+        ) {
+          location.replace('/real-life-grind/storybook/index.html');
+        }
+      })();
     </script>
   </head>
   <body>
