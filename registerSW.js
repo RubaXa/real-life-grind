@@ -1,0 +1,1 @@
+if('serviceWorker' in navigator) {window.addEventListener('load', () => {navigator.serviceWorker.register('/real-life-grind/sw.js', { scope: '/real-life-grind/' })})}
