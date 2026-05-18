@@ -367,13 +367,24 @@ real-life-grind/
 - **Risk accepted:** Деплой только вручную — оператор должен помнить запушить после изменений. Storybook и SPA деплоятся вместе — нельзя обновить только один.
 - **Rejected alternatives:** Vercel/Netlify (другой провайдер — overhead миграции), Firebase Hosting (платный), раздельные деплой-команды для SPA и Storybook (усложнение без выигрыша на v1).
 
-### D-019 — GitHub Pages 404.html конфликт с поддиректориями
+### D-019 — GitHub Pages 404.html + Service Worker конфликт с поддиректориями
 - **Status:** active
-- **Recorded:** session Discovery, infra-base, deploy verification
-- **Why:** GitHub Pages с `404.html` (SPA fallback) перехватывает ВСЕ не-файловые пути, включая директории с `index.html` внутри (`/storybook/` → `404.html` вместо `storybook/index.html`). Это известное ограничение GitHub Pages: когда `404.html` существует, он имеет приоритет над directory index resolution.
-- **Solution:** В исходный `index.html` (Vite) добавлен inline-скрипт ПЕРЕД SPA-кодом, который редиректит storybook-пути на `storybook/index.html`. Поскольку `404.html` — копия `index.html`, скрипт срабатывает в обоих случаях. Storybook-файлы (`storybook/index.html`) не содержат этого скрипта (это отдельный билд), поэтому редирект-лупа нет.
-- **Verification:** `curl -sI /storybook/` → 301 → `/storybook/index.html` → 200 (Storybook HTML). `curl -sI /some-spa-route` → 200 (SPA HTML через 404). `curl -sI /` → 200 (SPA HTML).
-- **Risk accepted:** Глубокие ссылки Storybook (`/storybook/iframe.html?id=...`) работают напрямую (это файлы, не проходят через 404). Ненайденные storybook-пути редиректятся на корень Storybook (приемлемо).
+- **Recorded:** session Discovery, infra-base, deploy verification (3 итерации)
+- **Why:** GitHub Pages с `404.html` (SPA fallback) перехватывает ВСЕ не-файловые пути, включая директории с `index.html` внутри (`/storybook/` → `404.html` вместо `storybook/index.html`). Усугубляется Service Worker: `NavigationRoute` перехватывает navigate-запросы и возвращает SPA `index.html` даже для `/storybook/` — создаёт циклический редирект (SPA → редирект на storybook → SW перехватывает → снова SPA).
+- **Solution (два слоя защиты):**
+  1. **Service Worker:** `navigateFallbackDenylist: [/^\/storybook\//, /\/storybook\/index\.html$/]` в `vite.config.ts` → Workbox `NavigationRoute` не перехватывает storybook-навигацию. **Это основной фикс.**
+  2. **HTML-редирект:** В исходном `index.html` (Vite) inline-скрипт до SPA-кода:
+     ```js
+     if (p.includes('/storybook') && !p.match(/\.\w+$/) && p !== '/real-life-grind/storybook/index.html')
+       location.replace('/real-life-grind/storybook/index.html');
+     ```
+     Срабатывает для не-файловых storybook-путей (защита от цикла: проверка на расширение и на уже-правильный-путь). Нужен для: первого визита до установки SW, браузеров без SW, GitHub Pages 404-fallback.
+- **Bug journey (2026-05-18):**
+  - v1: `gh-pages` npm пакет с `--no-history` — лил лишние файлы (`.env.example`, `.gitignore`, etc) в ветку. **Заменён на чистый git** (`git init` в temp dir + `git push --force`).
+  - v2: 404.html редирект без проверки расширения → цикл со Storybook-редиректом. **Добавлена проверка `!p.match(/\.\w+$/)`.**
+  - v3: Service Worker `NavigationRoute` перехватывал /storybook/ → возвращал SPA. **Добавлен `navigateFallbackDenylist`.**
+- **Verification:** `curl -s /storybook/` → `<title>storybook - Storybook</title>`. `curl -s /` → `<title>Real-Life Grind</title>`. SW: `denylist:[/^\/storybook\//,/\/storybook\/index\.html$/]`.
+- **Risk accepted:** Storybook deep links (`/storybook/iframe.html?id=...`) работают напрямую (файлы отдаются без 404). Ненайденные storybook-пути редиректятся на корень Storybook (приемлемо). Смена репо-имени потребует обновления путей в `index.html`, `vite.config.ts`, `navigateFallbackDenylist`.
 
 ## 8. Scope Dependencies
 

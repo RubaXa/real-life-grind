@@ -25,6 +25,7 @@
 | P4 | config | P2 | [ ] TODO |
 | P5 | test | P4 | [x] |
 | P6 | config | P5 | [x] |
+| P7 | config | P6 | [x] |
 
 ## 3. Phases
 
@@ -277,6 +278,31 @@ Contract: [infra-base spec 2 Tool Stack, 6 Verification Commands, 3 Dev Workflow
 - [x] 2026-05-18T10:50:00Z DONE
 **Handoff →** artifacts: [index.html]; decisions: [404-redirect=inline-script, storybook-path=checked-before-spa]; open: []
 
+#### P7 — config (service worker denylist)
+- **Objective:** Service Worker `NavigationRoute` перехватывал storybook-навигацию → SPA index.html → цикл. Добавить `navigateFallbackDenylist` в `vite.config.ts`.
+- **Rules:**
+  *(config phase.)*
+- **Target Files:**
+  - `vite.config.ts` (добавить `navigateFallbackDenylist`)
+- **Inputs:** Round 2 P6 handoff
+- **Exit:**
+  - `vite.config.ts`: `navigateFallbackDenylist: [/^\/storybook\//, /\/storybook\/index\.html$/]`
+  - Сгенерированный `sw.js` содержит `denylist` в `NavigationRoute`
+  - `npm run deploy` → `/storybook/` отдаёт Storybook (200), без SW-перехвата
+  - `curl -s /sw.js` → содержит `denylist:[/^\\/storybook\\//,/\\/storybook\\/index\\.html$/]`
+
+#### P7 Execution Log
+- [x] 2026-05-18T11:35:00Z recon targets=vite.config.ts=exists divergence=none
+- [x] 2026-05-18T11:35:00Z rules (none — config phase)
+- [x] 2026-05-18T11:35:00Z insight SW NavigationRoute перехватывал /storybook/ → возвращал SPA → добавить denylist → spec D-019 v3
+- [x] 2026-05-18T11:35:00Z file vite.config.ts (navigateFallbackDenylist + убран !storybook/** из globPatterns)
+- [x] 2026-05-18T11:36:00Z ver npm run build → pass exit=0
+- [x] 2026-05-18T11:36:00Z ver curl /sw.js → contains denylist → pass
+- [x] 2026-05-18T11:37:00Z ver npm run deploy → pass
+- [x] 2026-05-18T11:37:00Z ver curl /storybook/ → 200, title: storybook - Storybook → pass
+- [x] 2026-05-18T11:37:00Z DONE
+**Handoff →** artifacts: [vite.config.ts]; decisions: [sw-denylist=/storybook/, globPatterns=no-storybook-exclusion]; open: []
+
 #### Round close
-- [x] 2026-05-18T10:51:00Z sync infra-base+root
-- [x] 2026-05-18T10:51:00Z DONE
+- [x] 2026-05-18T11:38:00Z sync infra-base+root
+- [x] 2026-05-18T11:38:00Z DONE
