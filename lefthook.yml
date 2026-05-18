@@ -1,0 +1,16 @@
+# @file: lefthook.yml
+# @consumers: infra-base
+# @tasks: TSK-03
+
+pre-commit:
+  parallel: false
+  jobs:
+    - name: biome-check
+      run: npx biome check --write {staged_files}
+      glob: "*.{js,ts,svelte,json,css}"
+
+    - name: typecheck
+      run: npx tsc --noEmit
+
+    - name: vitest-changed
+      run: npx vitest run --changed

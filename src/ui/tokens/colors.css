@@ -1,0 +1,43 @@
+/*
+ * @file: src/ui/tokens/colors.css
+ * @consumers: themes, components, web
+ * @tasks: TSK-05
+ */
+
+/* §1.1 — Colors */
+
+:root {
+  /* Background layers (navy system — never pure black) */
+  --c-bg-base:      #0F0F1A;   /* страница */
+  --c-bg-surface:   #1A1A2E;   /* карточки */
+  --c-bg-elevated:  #252545;   /* модалки, hover-состояния */
+  --c-bg-overlay:   #0F0F1A99; /* backdrop */
+
+  /* Gold — points, balance, currency (exclusive) */
+  --c-gold:         #F5C842;
+  --c-gold-glow:    #F5C84240;
+  --c-gold-dim:     #F5C84280;
+
+  /* Teal — primary actions (approve, buy, complete) */
+  --c-teal:         #4ECDC4;
+  --c-teal-glow:    #4ECDC430;
+
+  /* Red — penalty, burn, urgent (use sparingly) */
+  --c-red:          #FF6B6B;
+  --c-red-glow:     #FF6B6B30;
+
+  /* Green — done, success, approved */
+  --c-green:        #6BCB77;
+  --c-green-glow:   #6BCB7730;
+
+  /* Purple — school grades exclusively */
+  --c-purple:       #9B8EC4;
+
+  /* Muted — borders, dividers */
+  --c-muted:        #2E2E52;
+
+  /* Text hierarchy */
+  --c-text-1:       #F0F0FA;   /* primary */
+  --c-text-2:       #9090B8;   /* secondary */
+  --c-text-3:       #55557A;   /* disabled, placeholder */
+}

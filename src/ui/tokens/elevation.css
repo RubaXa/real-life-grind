@@ -1,0 +1,18 @@
+/*
+ * @file: src/ui/tokens/elevation.css
+ * @consumers: themes, components, web
+ * @tasks: TSK-05
+ */
+
+/* §1.6 — Elevation & Depth */
+
+:root {
+  /* Borders */
+  --border-default: 1px solid var(--c-muted);
+
+  /* Glow rules */
+  --glow-gold:  0 0 16px var(--c-gold-glow);
+  --glow-teal:  0 0 12px var(--c-teal-glow);
+  --glow-red:   0 0 12px var(--c-red-glow);
+  --glow-awaiting-approval: 0 0 0 1px var(--c-gold), 0 0 8px var(--c-gold-glow);
+}

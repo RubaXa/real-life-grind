@@ -1,0 +1,16 @@
+/*
+ * @file: src/ui/themes/default.css
+ * @consumers: browser
+ * @tasks: TSK-05
+ */
+
+/* §11 — default theme: dark premium (Balatro-like) */
+
+@import '../tokens/colors.css';
+@import '../tokens/typography.css';
+@import '../tokens/spacing.css';
+@import '../tokens/radius.css';
+@import '../tokens/motion.css';
+@import '../tokens/elevation.css';
+@import '../tokens/animations.css';
+@import '../tokens/components.css';

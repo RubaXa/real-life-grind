@@ -1,0 +1,20 @@
+/*
+ * @file: src/ui/tokens/motion.css
+ * @consumers: themes, components, web
+ * @tasks: TSK-05
+ */
+
+/* §1.5 — Motion */
+
+:root {
+  /* Easing curves */
+  --motion-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --motion-quick:  cubic-bezier(0.4, 0, 0.2, 1);
+  --motion-ease:   cubic-bezier(0.25, 0.1, 0.25, 1);
+
+  /* Durations */
+  --duration-instant: 80ms;
+  --duration-fast:    150ms;
+  --duration-base:    280ms;
+  --duration-slow:    450ms;
+}

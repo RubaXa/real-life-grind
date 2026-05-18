@@ -1,0 +1,17 @@
+/*
+ * @file: src/ui/tokens/animations.css
+ * @consumers: themes, components, web
+ * @tasks: TSK-05
+ */
+
+/* §1.7 — Animation Hooks */
+
+:root {
+  --anim-card-complete:  shimmer 0.4s var(--motion-quick);
+  --anim-points-land:    tick-up 0.6s var(--motion-spring);
+  --anim-gold-glow:      gold-pulse 0.3s var(--motion-ease);
+  --anim-burn-idle:      burn-pulse 2s ease infinite;
+  --anim-timer-urgent:   urgent-shake 0.5s var(--motion-spring) infinite;
+  --anim-card-appear:    slide-up 0.28s var(--motion-spring);
+  --anim-approve:        pop-confetti 0.5s var(--motion-spring);
+}

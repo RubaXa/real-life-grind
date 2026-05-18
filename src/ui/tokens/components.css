@@ -1,0 +1,107 @@
+/*
+ * @file: src/ui/tokens/components.css
+ * @consumers: themes, components, web
+ * @tasks: TSK-05
+ */
+
+/* §1.8 — Component Style Tokens */
+
+/* Cards */
+.card {
+  background: var(--c-bg-surface);
+  border-radius: var(--radius-md);
+  padding: var(--space-4);
+}
+
+.card-elevated {
+  background: var(--c-bg-elevated);
+  border-radius: var(--radius-md);
+  padding: var(--space-4);
+}
+
+/* Buttons */
+.button-primary {
+  background: var(--c-teal);
+  color: var(--c-bg-base);
+  border-radius: var(--radius-pill);
+  padding: var(--space-4) var(--space-6);
+  font: var(--label);
+}
+
+.button-approve {
+  background: var(--c-green);
+  color: var(--c-bg-base);
+  border-radius: var(--radius-pill);
+}
+
+.button-reject {
+  background: transparent;
+  color: var(--c-red);
+  border-radius: var(--radius-pill);
+}
+
+.button-buy {
+  background: var(--c-teal);
+  color: var(--c-bg-base);
+  border-radius: var(--radius-pill);
+}
+
+/* Badges */
+.badge-points {
+  background: transparent;
+  color: var(--c-gold);
+  font: var(--label);
+}
+
+.badge-penalty {
+  background: transparent;
+  color: var(--c-red);
+  font: var(--label);
+}
+
+/* Balance */
+.balance-display {
+  color: var(--c-gold);
+  font: var(--points);
+}
+
+/* Inbox strip */
+.inbox-strip {
+  background: var(--c-bg-elevated);
+  color: var(--c-text-1);
+  border-radius: 0;
+}
+
+/* Tab bar */
+.tab-bar {
+  background: var(--c-bg-surface);
+  height: 64px;
+}
+
+.tab-active {
+  color: var(--c-teal);
+}
+
+.tab-inactive {
+  color: var(--c-text-2);
+}
+
+/* Slide-to-complete */
+.slide-to-complete {
+  background: var(--c-bg-elevated);
+  border-radius: var(--radius-pill);
+  height: 52px;
+}
+
+/* Segment control */
+.segment-control {
+  background: var(--c-bg-elevated);
+  color: var(--c-text-2);
+  border-radius: var(--radius-pill);
+}
+
+.segment-active {
+  background: var(--c-bg-surface);
+  color: var(--c-text-1);
+  border-radius: var(--radius-pill);
+}

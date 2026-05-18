@@ -1,0 +1,14 @@
+/*
+ * @file: src/ui/tokens/radius.css
+ * @consumers: themes, components, web
+ * @tasks: TSK-05
+ */
+
+/* §1.4 — Border Radius */
+
+:root {
+  --radius-sm:   8px;   /* chips, tags, avatar crops */
+  --radius-md:   16px;  /* standard cards, dialogs, panels */
+  --radius-lg:   24px;  /* bottom sheets, large modals */
+  --radius-pill: 999px; /* buttons, badges, segment controls, slide track */
+}
