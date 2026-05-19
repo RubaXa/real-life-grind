@@ -82,6 +82,30 @@ padding: 12px;
 
 ## Figma MCP Integration
 
+### Вызов инструментов Figma
+
+MCP-сервер `figma-developer-mcp` предоставляет два инструмента: `get_figma_data` и `download_figma_images`.
+
+**Если инструменты НЕ отображаются в списке доступных** (ограничение llm-proxy) — вызывай их напрямую через bash:
+
+```bash
+# Получить данные макета
+echo '{"jsonrpc":"2.0","id":2,"method":"tools/call","params":{"name":"get_figma_data","arguments":{"fileKey":"<fileKey>","nodeId":"<nodeId>"}}}' | \
+  npx -y figma-developer-mcp --stdio
+
+# Скачать изображения
+echo '{"jsonrpc":"2.0","id":3,"method":"tools/call","params":{"name":"download_figma_images","arguments":{"fileKey":"<fileKey>","nodes":[{"nodeId":"<nodeId>","fileName":"icon.svg"}],"localPath":"src/ui/icons"}}}' | \
+  npx -y figma-developer-mcp --stdio
+```
+
+- `<fileKey>` — из Figma URL (`figma.com/design/<fileKey>/...`)
+- `<nodeId>` — из параметра `node-id=<nodeId>` (дефисы заменить на двоеточия: `6-4093` → `6:4093`)
+- `FIGMA_API_KEY` подтягивается из окружения автоматически
+
+### Rate Limits
+
+Figma API имеет лимиты на запросы. При 429 (Too Many Requests) — подождать сброса (обычно до 1 часа для Viewer-прав). Для повышения лимита нужен Full/Professional seat.
+
 ### Санитизация
 
 Имена компонентов и текстовые слои из Figma проходят санитизацию перед подстановкой в prompt:
