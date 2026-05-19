@@ -10,8 +10,10 @@
 graph TD
     web --> infra-ui
     web --> infra-base
+    web --> infra-opencode-figma
     web --> domain-lib
     infra-ui --> infra-base
+    infra-opencode-figma --> infra-base
     domain-lib --> infra-base
 ```
 
@@ -23,9 +25,10 @@ graph TD
 |---|---|---|---|
 | [`infra-base`](./infra-base/infra-base.spec.md) | infrastructure | ✅ | **Фундамент сборки:** TypeScript, Vite, Svelte 5, Vitest, Playwright, Biome, lefthook, Firebase, PWA. Поставляет все dev-инструменты и скрипты проверок. |
 | [`infra-ui`](./infra-ui/infra-ui.spec.md) | infrastructure | ✅ | **Дизайн-система и UI-кит:** Storybook 10, 19 Svelte 5/Melt UI компонентов, CSS design-токены, темизация, play-function stories + a11y. `web` потребляет UI-кит через `src/ui/index.ts`. |
+| [`infra-opencode-figma`](./infra-opencode-figma/infra-opencode-figma.spec.md) | infrastructure | ✅ | **Figma MCP для OpenCode:** локальный MCP-сервер `figma-developer-mcp`, связывающий Figma-макеты с AI-агентом для кодогенерации Svelte-компонентов. |
 | `domain-lib` | library | 🚧 | **Бизнес-логика:** 6 изолированных bounded-контекстов (Family, Tasks, Ledger, School, Store, Inbox). Не зависит от UI. Потребляется `web`. |
 | `web` | product | 🚧 | **SPA-приложение:** Svelte 5, local-first PWA, Firebase-синхронизация. Зависит от `infra-base` (сборка), `infra-ui` (UIKit), `domain-lib` (логика). |
 
 > **Легенда:** ✅ готов (discovery пройден) | 🚧 в работе (файл создан / запланирован) | ⬜ запланирован (файла нет)
 > 
-> _Обновлено: 2026-05-17_
+> _Обновлено: 2026-05-19_

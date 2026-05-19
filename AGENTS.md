@@ -79,3 +79,59 @@ padding: 12px;
 - **Biome lints only `src/**` and `tests/**`** — files outside these folders are not checked.
 - **Vite alias `$lib`** → `src/lib` (not actively used yet, but reserved).
 - **PWA:** vite-plugin-pwa with autoUpdate. Service worker caches static assets (CacheFirst) and API (NetworkFirst).
+
+## Figma MCP Integration
+
+### Санитизация
+
+Имена компонентов и текстовые слои из Figma проходят санитизацию перед подстановкой в prompt:
+
+- **Ограничение длины:** максимум 64 символа; превышение обрезается с добавлением `…`
+- **Допустимые символы:** `[a-zA-Zа-яА-Я0-9 _-]` — всё остальное удаляется
+
+### Генерация кода (Svelte 5)
+
+При генерации Svelte-кода из Figma-макета агент должен:
+
+- Использовать **Svelte 5 runes**: `$props()`, `$state()`, `$derived()`, `$effect()`
+- Для интерактивных элементов применять **Melt UI** (headless primitives), не нативные HTML-элементы
+- Все визуальные атрибуты задавать через **CSS custom properties** из `src/ui/tokens/`:
+  - `colors.css` — палитра (`var(--c-*)`)
+  - `spacing.css` — отступы (`var(--space-*)`)
+  - `radius.css` — скругления (`var(--radius-*)`)
+  - `typography.css` — шрифты (`var(--font-*)`, `var(--label)`)
+  - `elevation.css` — тени
+  - `motion.css`, `animations.css` — анимации
+- Следовать структуре `src/ui/primitives/<Component>/`:
+  - `Component.svelte` — runes + Melt UI
+  - `Component.test.ts` — Vitest
+  - `Component.stories.ts` — Storybook
+
+### Маппинг Figma → Svelte
+
+| Figma-имя | Svelte-компонент | Статус |
+|---|---|---|
+| `Button` | `src/ui/primitives/Button/` | ✓ mapped |
+| `Icon` | `src/ui/icons/` (Bell, Shop, Star, Tasks, Home, Hamburger, Grades, Fire, Check) | ⚠ partial (9 иконок) |
+| `Counter` | — | ✗ unmapped |
+| `Badge` | `src/ui/primitives/Badge/` | ✓ mapped |
+| `Modal` | `src/ui/primitives/Modal/` | ✓ mapped |
+| `SegmentControl` | `src/ui/primitives/SegmentControl/` | ✓ mapped |
+| `PointsBadge` | `src/ui/components/PointsBadge/` | ✓ mapped |
+
+### Пример промпта
+
+```
+Реализуй этот макет как Svelte 5 компонент:
+[вставь Figma-ссылку на фрейм]
+
+Используй:
+- Svelte 5 runes ($props, $state, $derived, $effect)
+- Melt UI для интерактивных элементов
+- CSS-токены из src/ui/tokens/ (var(--c-*), var(--space-*), var(--radius-*))
+- Существующие компоненты из src/ui/primitives/ и src/ui/icons/
+- Структуру: Component.svelte + Component.test.ts + Component.stories.ts
+
+Перед генерацией проверь маппинг Figma-имён на существующие компоненты
+в секции «Маппинг Figma → Svelte» этого файла.
+```

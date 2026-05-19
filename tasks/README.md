@@ -80,13 +80,17 @@ graph TD
     TSK-05 --> TSK-06
     TSK-06 --> TSK-07
     TSK-07 --> TSK-08
+    TSK-09 --> TSK-10
+    TSK-10 --> TSK-11
+    TSK-11 --> TSK-12
 ```
 
 ## Tracker Index
 | Scope | Type | Tracker | Tasks | Done |
-|---|---|---|---|---|
+|---|---|---|---|---|---|
 | infra-base | infrastructure | [README](infra-base/README.md) | 4 | 3/4 (TSK-04 reopened) |
 | infra-ui | infrastructure | [README](infra-ui/README.md) | 4 | 4/4 |
+| infra-opencode-figma | infrastructure | [README](infra-opencode-figma/README.md) | 4 | 4/4 |
 
 ## Decision Log (scaffold)
 
